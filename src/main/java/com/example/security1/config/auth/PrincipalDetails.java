@@ -1,4 +1,4 @@
-package com.example.security1.auth;
+package com.example.security1.config.auth;
 
 // Security catches /login and proceed login.
 // create security session when login completed. (Security ContextHolder)
@@ -9,18 +9,36 @@ package com.example.security1.auth;
 // Security Session => Authentication => UserDetails(PrincipalDetails)
 
 import com.example.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user; // composition
+    private Map<String, Object> attributes;
 
+    // normal login
     public PrincipalDetails(User user) {
         this.user = user;
+    }
+
+    // oauth login
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     // return User's authorities.
@@ -65,5 +83,10 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
 
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

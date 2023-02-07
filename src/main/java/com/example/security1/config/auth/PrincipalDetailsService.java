@@ -1,4 +1,4 @@
-package com.example.security1.auth;
+package com.example.security1.config.auth;
 
 import com.example.security1.model.User;
 import com.example.security1.repository.UserRepository;
@@ -17,6 +17,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     // Security session(contains Authentication(contains UserDetails))
+    // @AuthenticationPrincipal annotation created after function.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("username :"+username);
